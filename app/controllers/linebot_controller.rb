@@ -3,6 +3,7 @@ class LinebotController < ApplicationController
   require 'json'
   require 'net/https'
   require "uri"
+  require 'nkf'
 
   # callbackアクションのCSRFトークン認証を無効
   protect_from_forgery :except => [:callback]
@@ -25,18 +26,8 @@ class LinebotController < ApplicationController
     events = client.parse_events_from(body)
 
     events.each { |event|
-
-      # # event.message['text']でLINEで送られてきた文書を取得
-      # if event.message['text'].include?("好き")
-      #   response = "へーい"
-      # elsif event.message["text"].include?("行ってきます")
-      #   response = "はーい"
-      # else
-      #   response = "test"
-      # end
-      # #if文でresponseに送るメッセージを格納
       message = event.message['text'].gsub(/[[:space:]]/,'')
-      word = message[0]
+      word = NKF.nkf("--katakana -w",message[0])
       word_count = message[1]
       response = fetch_word_from_api(word:word, word_count:word_count)
 
