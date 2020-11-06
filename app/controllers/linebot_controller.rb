@@ -35,7 +35,10 @@ class LinebotController < ApplicationController
       #   response = "test"
       # end
       # #if文でresponseに送るメッセージを格納
-      response = fetch_word_from_api(word:"ア",word_count:6)
+      message = event.message['text'].gsub(/[[:space:]]/,'')
+      word = message[0]
+      word_count = message[1]
+      response = fetch_word_from_api(word:word, word_count:word_count)
 
       case event
       when Line::Bot::Event::Message
