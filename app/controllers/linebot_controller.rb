@@ -62,5 +62,5 @@ class LinebotController < ApplicationController
     req = Net::HTTP::Get.new(uri)
     res = http.request(req)
     result = JSON.parse(res.body)
-    puts result["data"][0]["word"]
+    result["data"][0]["word"]
   end
