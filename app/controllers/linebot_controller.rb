@@ -64,3 +64,4 @@ class LinebotController < ApplicationController
     result = JSON.parse(res.body)
     result["data"][0]["word"]
   end
+end
